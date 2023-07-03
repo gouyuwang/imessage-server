@@ -1,6 +1,6 @@
 "use strict";
 
-class Subscriber{
+class Subscriber {
     notify(channels, payload){}
 
     getId(){}

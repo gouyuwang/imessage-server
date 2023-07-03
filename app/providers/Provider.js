@@ -1,7 +1,7 @@
 'use strict';
 const arrayWrap = require('../utils/utils').arrayWrap;
-const Hub = require('./index')
-const Master = require('./Master')
+const Hub = require('../hubs')
+const Master = require('../middlewares/Master')
 const logger = require('../utils/Logger')
 
 

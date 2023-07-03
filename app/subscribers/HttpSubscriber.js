@@ -1,12 +1,13 @@
 "use strict";
 let Subscriber = require('./Subscriber');
-const logger = require('../utils/logger');
+const logger = require('../utils/Logger');
 
 const axios = require('axios');
 
 const MASTER_HOST = process.env.MASTER_HOST;
 
 class HttpSubscriber extends Subscriber {
+
     constructor(hooks, id) {
         super();
         this.provider = 'http'

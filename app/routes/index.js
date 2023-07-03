@@ -1,8 +1,8 @@
 'use strict';
-let HttpSubscriber = require('../subscriber/HttpSubscriber');
-const Hub = require('../hub');
+let HttpSubscriber = require('../subscribers/HttpSubscriber');
+const Hub = require('../hubs');
 let bodyParser = require('body-parser');
-const logger = require("../utils/logger");
+const logger = require("../utils/Logger");
 const masterChannel = process.env.MASTER_CHANNEL || 'master';
 const jwtSecret = process.env.JWT_SECRET || 'somerandsecret';
 const jwt = require('jsonwebtoken');

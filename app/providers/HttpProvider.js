@@ -1,8 +1,7 @@
 'use strict'
 
 let Provider = require('./Provider')
-const arrayWrap = require('../utils/utils').arrayWrap
-
+const Util = require('../utils')
 
 class HttpProvider extends Provider {
 
@@ -11,14 +10,12 @@ class HttpProvider extends Provider {
     }
 
     broadcast(channel, payload) {
-        this
-            .gatherSubscribers(channel)
+        this.gatherSubscribers(channel)
             .forEach(subscriber => {
                 let event = 'message';
-
                 if (subscriber instanceof Array) {
                     event = subscriber[0];
-                    arrayWrap(subscriber[1]).map(sub => sub.notify(event.split('::')[1], payload))
+                    Util.arrayWrap(subscriber[1]).map(sub => sub.notify(event.split('::')[1], payload))
                 } else {
                     subscriber.notify(event, payload)
                 }

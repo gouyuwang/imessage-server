@@ -1,7 +1,7 @@
 'use strict';
 
 let Provider = require('./Provider');
-const formatError = require('../utils/utils').formatError
+const Util = require('../utils')
 const ev = require('../utils/ev')
 
 class IoProvider extends Provider {
@@ -26,12 +26,13 @@ class IoProvider extends Provider {
                 subscriber = subscriber[1];
                 if (subscriber) {
                     let [channel, event] = chanelEvent.split('::')
+                    console.log('event: ' + event)
 
                     if (broadcaster) {
                         this.authChannel(channel, broadcaster).then(re => {
                             subscriber.notify(chanelEvent, payload)
                         }).catch(err => {
-                            broadcaster.notify(ev.ERROR, formatError('broadcast', err))
+                            broadcaster.notify(ev.ERROR, Util.formatError('broadcast', err))
                         })
                     } else {
                         subscriber.notify(chanelEvent, payload)

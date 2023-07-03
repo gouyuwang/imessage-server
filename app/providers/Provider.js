@@ -1,5 +1,5 @@
 'use strict';
-const arrayWrap = require('../utils/utils').arrayWrap;
+const Util = require('../utils');
 const Hub = require('../hubs')
 const Master = require('../middlewares/Master')
 const logger = require('../utils/Logger')
@@ -17,7 +17,7 @@ class Provider {
 
   subscribe(channels, subscriber) {
     let id = this.insertSubscriber(subscriber);
-    return Promise.all(arrayWrap(channels).map(channel => {
+    return Promise.all(Util.arrayWrap(channels).map(channel => {
       if (this.channels[channel] === undefined) {
         this.channels[channel] = [];
       }
@@ -77,7 +77,7 @@ class Provider {
     let index = this.indexOfSubscriber(subscriber);
     channels === '*' && this.subscribers.splice(index, 1); // Remove subscriber
 
-    arrayWrap(channels).forEach(chan => {
+    Util.arrayWrap(channels).forEach(chan => {
       if (this.channels.hasOwnProperty(chan)) {
         let indexS = this.channels[chan].indexOf(index);
 
@@ -96,7 +96,7 @@ class Provider {
       }
     }
     let subs = [];
-    arrayWrap(channel).forEach(chan => {
+    Util.arrayWrap(channel).forEach(chan => {
       let channelEvent = Provider.getChannelEvent(chan);
 
       let ch = channelEvent[0];

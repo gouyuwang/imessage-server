@@ -1,5 +1,7 @@
 "use strict";
+
 let Subscriber = require('./Subscriber');
+
 const logger = require('../utils/Logger');
 
 const axios = require('axios');

@@ -3,6 +3,7 @@ const Util = require('../utils');
 const Hub = require('../hubs')
 const Master = require('../middlewares/Master')
 const logger = require('../utils/Logger')
+const ev = require('../utils/ev')
 
 
 class Provider {
@@ -117,7 +118,7 @@ class Provider {
 
   static getChannelEvent(channel) {
     let partials = channel.split('::', 2);
-    let event = 'message';
+    let event = ev.MESSAGE;
     if (partials.length > 1) {
       event = partials[1];
     }

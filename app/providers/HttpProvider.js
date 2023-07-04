@@ -2,6 +2,7 @@
 
 let Provider = require('./Provider')
 const Util = require('../utils')
+const ev = require('../utils/ev')
 
 class HttpProvider extends Provider {
 
@@ -12,7 +13,7 @@ class HttpProvider extends Provider {
     broadcast(channel, payload) {
         this.gatherSubscribers(channel)
             .forEach(subscriber => {
-                let event = 'message';
+                let event = ev.MESSAGE;
                 if (subscriber instanceof Array) {
                     event = subscriber[0];
                     Util.arrayWrap(subscriber[1]).map(sub => sub.notify(event.split('::')[1], payload))

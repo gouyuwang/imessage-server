@@ -3,8 +3,8 @@ let HttpSubscriber = require('../subscribers/HttpSubscriber');
 const Hub = require('../hubs');
 let bodyParser = require('body-parser');
 const logger = require("../utils/Logger");
-const masterChannel = process.env.MASTER_CHANNEL || 'master';
-const jwtSecret = process.env.JWT_SECRET || 'somerandsecret';
+const masterChannel = process.env.MASTER_CHANNEL;
+const jwtSecret = process.env.JWT_SECRET;
 const jwt = require('jsonwebtoken');
 const utils = require('../utils');
 const parseJWT = utils.parseJWT
@@ -68,15 +68,9 @@ module.exports = function (express) {
         }
     });
 
-    express.use('/subscribe', authIfMaster);
-    express.post('/subscribe', (req, res) => {
-        let id = req.body.id;
-        let sub = new HttpSubscriber(req.body.hooks, id);
-        Hub.subscribe(req.body.channels || masterChannel, sub);
-
-        logger.debug('Server subscribe ' + JSON.stringify(req.body), false)
-        res.send('ok');
-    });
+    express.get('/channels', (req, res) => {
+        res.send(Hub.channels());
+    })
 
     express.post('/unsubscribe', (req, res) => {
         let id = req.body.id;
@@ -88,8 +82,16 @@ module.exports = function (express) {
     });
 
 
-    express.use('/broadcast', authIfMaster);
-    express.post('/broadcast', (req, res) => {
+    express.post('/subscribe', authIfMaster, (req, res) => {
+        let id = req.body.id;
+        let sub = new HttpSubscriber(req.body.hooks, id);
+        Hub.subscribe(req.body.channels || masterChannel, sub);
+
+        logger.debug('Server subscribe ' + JSON.stringify(req.body), false)
+        res.send('ok');
+    });
+
+    express.post('/broadcast', authIfMaster, (req, res) => {
         let body = req.body;
         let channels = body.channels || '*';
         let event = body.event || 'message';
@@ -106,19 +108,13 @@ module.exports = function (express) {
         res.send('ok');
     });
 
-    express.use('/config', auth);
-    express.post('/config', (req, res) => {
+    express.post('/config', auth, (req, res) => {
         let body = req.body;
         Hub.setPrivates(body.privates || [])
         res.send('ok');
     })
 
-    express.get('/channels', (req, res) => {
-        res.send(Hub.channels());
-    })
-
-    express.use('/user', auth);
-    express.get('/user', (req, res) => {
+    express.get('/user', auth, (req, res) => {
         res.send(req.user || {});
     })
 }

@@ -40,7 +40,7 @@ Logger.write = function (line, level = 'info', write = true) {
     if (Logger.levels[level.toUpperCase()] < Logger.levels[Logger.level.toUpperCase()]) {
         return;
     }
-    let file = `./logs/imessage.log`;
+    let file = './logs/' + moment().format('YYYY-MM-DD') + '.log';
     write && fs.appendFile(file, Logger.formatLine(line, level), function (err) {
         if (err) {
             console.log(colors.red(`Write log failed file [${file}]`));

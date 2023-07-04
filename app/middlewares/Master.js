@@ -5,7 +5,7 @@
  *
  * @type {*|string}
  */
-const path = process.env.MASTER_AUTH_PATH || '/imessage/auth';
+const path = process.env.MASTER_AUTH_PATH;
 
 /**
  * Master port

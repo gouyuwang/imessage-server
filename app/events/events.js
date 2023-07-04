@@ -1,12 +1,12 @@
 "use strict";
 const ev = require('../utils/ev')
 const Hub = require('../hubs')
-const IoSubscriber = require('../subscribers/IoSubscriber')
-const masterChannel = process.env.MASTER_CHANNEL || 'master';
-const enableLoginOut = process.env.ENABLE_LOGIN_OUT
 const Util = require('../utils');
 const parseJWT = Util.parseJWT
 const formatError = Util.formatError
+const IoSubscriber = require('../subscribers/IoSubscriber')
+const masterChannel = process.env.MASTER_CHANNEL;
+const enableLoginOut = process.env.ENABLE_LOGIN_OUT
 
 function events(io) {
     io.on(ev.CONNECTION, function (client) {

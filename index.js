@@ -17,20 +17,20 @@ const server = require('http').createServer(express);
  */
 const IoProvider = require('./app/providers/IoProvider');
 const HttpProvider = require('./app/providers/HttpProvider');
-const io =
-    require('socket.io')
-        .listen(server, {
-            handlePreflightRequest: function (req, res) {
-                let origin = req.headers['origin'] || 'http://localhost'
-                let headers = {
-                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                    'Access-Control-Allow-Origin': origin,
-                    'Access-Control-Allow-Credentials': true
-                }
-                res.writeHead(200, headers);
-                res.end();
+const io = require('socket.io')
+    .listen(server, {
+        // CORS Request
+        handlePreflightRequest: function (req, res) {
+            let origin = req.headers['origin'] || 'http://localhost'
+            let headers = {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': origin,
+                'Access-Control-Allow-Credentials': true
             }
-        });
+            res.writeHead(200, headers);
+            res.end();
+        }
+    });
 
 /**
  * Hub
@@ -42,7 +42,7 @@ Hub.addProvider('io', new IoProvider(io))
 Hub.addProvider('http', new HttpProvider())
 
 /**
- * Load router
+ * Http listener
  */
 require('./app/routes')(express);
 

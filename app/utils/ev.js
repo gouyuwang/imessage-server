@@ -1,5 +1,6 @@
 const ev = {
   CONNECTION : 'connection',
+  MESSAGE    : 'message',
   SUBSCRIBE  : 'subscribe',
   BROADCAST  : 'broadcast',
   DISCONNECT : 'disconnect',

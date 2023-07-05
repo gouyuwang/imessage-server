@@ -10,3 +10,15 @@
 
 * [php](https://github.com/gouyuwang/imessage-php)
 * [js](https://github.com/gouyuwang/imessage-js)
+
+## Use
+
+```shell
+node index.js 
+```
+
+or
+
+```shell
+npm start
+```

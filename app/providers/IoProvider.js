@@ -19,8 +19,7 @@ class IoProvider extends Provider {
             }
         }
 
-        this
-            .gatherSubscribers(channel)
+        this.gatherSubscribers(channel)
             .forEach(subscriber => {
                 let chanelEvent = subscriber[0];
                 subscriber = subscriber[1];
@@ -29,11 +28,13 @@ class IoProvider extends Provider {
                     console.log('event: ' + event)
 
                     if (broadcaster) {
-                        this.authChannel(channel, broadcaster).then(re => {
-                            subscriber.notify(chanelEvent, payload)
-                        }).catch(err => {
-                            broadcaster.notify(ev.ERROR, Util.formatError('broadcast', err))
-                        })
+                        this.authChannel(channel, broadcaster)
+                            .then(() => {
+                                subscriber.notify(chanelEvent, payload)
+                            })
+                            .catch(err => {
+                                broadcaster.notify(ev.ERROR, Util.formatError('broadcast', err))
+                            })
                     } else {
                         subscriber.notify(chanelEvent, payload)
                     }

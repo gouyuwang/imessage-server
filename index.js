@@ -11,32 +11,18 @@ const express = require('express')();
 const server = require('http').createServer(express);
 
 /**
- * Providers
+ * Socket Io Listener
  *
+ * @type {{Server: Server, DisconnectReason: any, BroadcastOperator: any, RemoteSocket: any, Namespace: any, Event: any, ServerOptions: ServerOptions, Socket: any}}
+ */
+const io = require('socket.io')(server);
+
+/**
+ * Add provider
  * @type {IoProvider|{}}
  */
 const IoProvider = require('./app/providers/IoProvider');
 const HttpProvider = require('./app/providers/HttpProvider');
-const io = require('socket.io')
-    .listen(server, {
-        // CORS Request
-        handlePreflightRequest: function (req, res) {
-            let origin = req.headers['origin'] || 'http://localhost'
-            let headers = {
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                'Access-Control-Allow-Origin': origin,
-                'Access-Control-Allow-Credentials': true
-            }
-            res.writeHead(200, headers);
-            res.end();
-        }
-    });
-
-/**
- * Hub
- *
- * @type Hub {Hub|{}}
- */
 const Hub = require('./app/hubs');
 Hub.addProvider('io', new IoProvider(io))
 Hub.addProvider('http', new HttpProvider())
@@ -55,7 +41,7 @@ require('./app/events/events')(io);
  * Server port | default 3003
  * @type {*|number}
  */
-const port = process.env.SERVER_PORT || 3003;
+const port = process.env.SERVER_PORT || 3000;
 
 /**
  * Connect master retry count | default 5

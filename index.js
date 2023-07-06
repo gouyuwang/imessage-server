@@ -15,7 +15,15 @@ const server = require('http').createServer(express);
  *
  * @type {{Server: Server, DisconnectReason: any, BroadcastOperator: any, RemoteSocket: any, Namespace: any, Event: any, ServerOptions: ServerOptions, Socket: any}}
  */
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+    // CORS Request
+    cors: {
+        allowedHeaders  : ["Content-Type", "Authorization"],
+        origin          : process.env.CORS || 'http://localhost:4000',
+        credentials     : true
+    },
+    allowEIO3: true
+});
 
 /**
  * Add provider
@@ -38,7 +46,7 @@ require('./app/routes')(express);
 require('./app/events/events')(io);
 
 /**
- * Server port | default 3003
+ * Server port | default 3000
  * @type {*|number}
  */
 const port = process.env.SERVER_PORT || 3000;

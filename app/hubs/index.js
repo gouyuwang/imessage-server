@@ -11,7 +11,7 @@ class Hub {
     Hub.initProviders();
     let p = subscriber.provider;
     let provider = Hub.providers[p];
-    if (provider === undefined) {
+    if (provider === void 0) {
       throw Error(`Can not find provider [${p}]`);
     }
     return provider;
